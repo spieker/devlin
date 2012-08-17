@@ -4,9 +4,9 @@ require File.expand_path('../lib/devlin/version', __FILE__)
 Gem::Specification.new do |gem|
   gem.authors       = ["Paul Spieker"]
   gem.email         = ["p.spieker@duenos.de"]
-  gem.description   = %q{TODO: Write a gem description}
-  gem.summary       = %q{TODO: Write a gem summary}
-  gem.homepage      = ""
+  gem.description   = %q{Devlin gives users the ability to define reporting database queries}
+  gem.summary       = %q{Devlin gives users the ability to define reporting database queries. The queries are defined in yaml and using predefined scopes. Since the sql statements are defined by the developer, the user is not able to corrupt the database.}
+  gem.homepage      = "https://github.com/spieker/devlin"
 
   gem.files         = `git ls-files`.split($\)
   gem.executables   = gem.files.grep(%r{^bin/}).map{ |f| File.basename(f) }
