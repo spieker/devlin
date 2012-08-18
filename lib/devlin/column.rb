@@ -25,7 +25,7 @@ module Devlin
     end
 
     def human_attribute_name
-      I18n.t(self.name, scope[:devlin, config[:scope].name])
+      I18n.t(self.name, scope: [:devlin, config[:scope].name], default: self.name.capitalize)
     end
 
     def arguments
