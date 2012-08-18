@@ -1,5 +1,7 @@
 module Devlin
   class Column
+    attr_reader :name, :config
+
     def initialize(name, config, *args)
       @name = name
       @config = config
@@ -20,6 +22,10 @@ module Devlin
       else
         value
       end
+    end
+
+    def human_attribute_name
+      I18n.t(self.name, scope[:devlin, config[:scope].name])
     end
 
     def arguments

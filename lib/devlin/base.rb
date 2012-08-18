@@ -15,7 +15,7 @@ module Devlin
 
     def scope(name)
       @scope ||= {}
-      @scope[name.to_sym] ||= Scope.new(@params, &(self.class[name.to_sym]))
+      @scope[name.to_sym] ||= Scope.new(name, @params, &(self.class[name.to_sym]))
       @scope[name.to_sym]
     end
 

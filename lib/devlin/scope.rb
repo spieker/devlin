@@ -20,9 +20,11 @@ module Devlin
     end
 
     attr_accessor :relation
+    attr_reader :name
 
-    def initialize(params, &block)
+    def initialize(name, params, &block)
       Config.new(self, params, &block)
+      @name = name
     end
 
     # add a column definition to the scope
@@ -30,7 +32,8 @@ module Devlin
       @columns ||= {}
       @columns[name.to_sym] = Column.new(name, {
         definition: definition,
-        getter: block
+        getter: block,
+        scope: self
       }, *args)
     end
 

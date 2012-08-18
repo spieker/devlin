@@ -1,11 +1,12 @@
 module Devlin
   class Query
-    attr_reader :query, :scope
+    attr_reader :query, :scope, :scope_name
 
     def initialize(parent, q)
       @parent = parent
       @query = YAML.load(q)
       @scope = parent.scope(query['scope'])
+      @scope_name = query['scope']
       @select = query['select']
       @conditions = query['conditions']
       @group = query['group']
