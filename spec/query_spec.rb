@@ -19,6 +19,9 @@ describe TestReport do
       group:
         - manufacturer
         - month
+      order:
+        month: asc
+        manufacturer: desc
     EOF
   end
 
@@ -29,6 +32,7 @@ describe TestReport do
       rep.query(@q).select.should eq(['month', 'manufacturer', 'earnings'])
       rep.query(@q).conditions.should eq('year' => 2012, 'month.geq' => 8, 'month.leq' => 10)
       rep.query(@q).group.should eq(['manufacturer', 'month'])
+      rep.query(@q).order.should eq('month' => 'ASC', 'manufacturer' => 'DESC')
     end # it
 
     it 'should return an exception if no selections are given' do
@@ -48,6 +52,12 @@ describe TestReport do
       rep = TestReport.new user_id: 1
       rep.query('scope: transaction').group.should be_an(Array)
       rep.query('scope: transaction').group.should be_empty
+    end
+    
+    it 'should return an empty hash if no order is given' do
+      rep = TestReport.new user_id: 1
+      rep.query('scope: transaction').order.should be_a(Hash)
+      rep.query('scope: transaction').order.should be_empty
     end
 
     describe 'result' do

@@ -30,7 +30,7 @@ class TestReport < Devlin::Base
     
     column :manufacturer, "manufacturer"
     column :year, "CAST(strftime('%Y', date) AS INTEGER)"
-    column :month, "CAST(strftime('%m', date) AS INTEGER)" do |value|
+    column :month, "CAST(strftime('%m', date) AS INTEGER)", :hallo => 'Welt' do |value|
       months = %W(~ Jan Feb Mar Apr May Jun Jul Aug Sep Okt Nov Dec)
       months[value]
     end

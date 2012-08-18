@@ -37,6 +37,12 @@ describe TestReport do
         scope = rep.scope(:transaction)
         scope.column(:month).value(2).should eq('Feb')
       end
+
+      it 'should contain the given additional arguments' do
+        rep = TestReport.new(user_id: 1)
+        scope = rep.scope(:transaction)
+        scope.column(:month).arguments.should eq({ :hallo => 'Welt' })
+      end
     end
   end
 end
