@@ -29,20 +29,39 @@ describe TestReport do
       rep.query(@q).select.should eq(['month', 'manufacturer', 'earnings'])
       rep.query(@q).conditions.should eq('year' => 2012, 'month.geq' => 8, 'month.leq' => 10)
       rep.query(@q).group.should eq(['manufacturer', 'month'])
+    end # it
+
+    it 'should return an exception if no selections are given' do
+      rep = TestReport.new user_id: 1
+      expect {
+        rep.query('scope: transaction').select
+      }.should raise_error
+    end
+
+    it 'should return an empty hash if no conditions are given' do
+      rep = TestReport.new user_id: 1
+      rep.query('scope: transaction').conditions.should be_a(Hash)
+      rep.query('scope: transaction').conditions.should be_empty
+    end
+    
+    it 'should return an empty hash if no conditions are given' do
+      rep = TestReport.new user_id: 1
+      rep.query('scope: transaction').group.should be_an(Array)
+      rep.query('scope: transaction').group.should be_empty
     end
 
     describe 'result' do
       it 'should only contain the selected columns' do
         rep = TestReport.new user_id: 1
         rep.query(@q).result.first.attributes.keys.map(&:to_sym).should eq([:month, :manufacturer, :earnings])
-      end
+      end # it
 
       it 'should contain only results with months between 1 and 3' do
         rep = TestReport.new user_id: 1
         rep.query(@q).result.each do |r|
           r.month.to_i.should be_between(8, 10)
         end
-      end
-    end
-  end
+      end # it
+    end # describe 'result'
+  end # describe 'query'
 end
