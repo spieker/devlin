@@ -1,8 +1,9 @@
 module Devlin
   class Column
-    def initialize(name, config)
+    def initialize(name, config, *args)
       @name = name
       @config = config
+      @arguments = args.extract_options!
     end
 
     def select_definition
@@ -19,6 +20,10 @@ module Devlin
       else
         value
       end
+    end
+
+    def arguments
+      @arguments
     end
   end
 end

@@ -14,8 +14,8 @@ module Devlin
         @scope.relation = rel  
       end
 
-      def column(name, definition, &block)
-        @scope.add_column(name, definition, &block)
+      def column(name, definition, *args, &block)
+        @scope.add_column(name, definition, *args, &block)
       end
     end
 
@@ -26,12 +26,12 @@ module Devlin
     end
 
     # add a column definition to the scope
-    def add_column(name, definition, &block)
+    def add_column(name, definition, *args, &block)
       @columns ||= {}
-      @columns[name.to_sym] = Column.new name, {
+      @columns[name.to_sym] = Column.new(name, {
         definition: definition,
         getter: block
-      }
+      }, *args)
     end
 
     def columns
