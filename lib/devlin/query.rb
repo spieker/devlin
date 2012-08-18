@@ -9,6 +9,7 @@ module Devlin
       @select = query['select']
       @conditions = query['conditions']
       @group = query['group']
+      @order = query['order']
     end
 
     # This method returns the resulting relation to calculate the given
@@ -34,6 +35,9 @@ module Devlin
         end
       end
       res = res.group(self.group.map { |c| @scope.column(c).definition })
+      self.order.each do |col, val|
+        res = res.order("#{@scope.column(col).definition} #{val}")
+      end
       res
     end # def result
 
@@ -48,5 +52,18 @@ module Devlin
     def group
       @group || []
     end # def group
+
+    def order
+      res = {}
+      (@order || {}).each do |key, value|
+        res[key] = case value.to_s.downcase
+                   when 'desc'
+                     'DESC'
+                   else
+                     'ASC'
+                   end
+      end
+      res
+    end
   end
 end
