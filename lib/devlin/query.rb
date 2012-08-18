@@ -17,7 +17,21 @@ module Devlin
       res = @scope.relation
       res = res.select(self.select.map { |c| @scope.column(c).select_definition })
       @conditions.each do |col, val|
-        res = res.where(["#{@scope.column(col).definition}=?", val.to_s])
+        col, op = col.split('.')
+        res = case op
+        when 'g'
+          res.where(["#{@scope.column(col).definition}>?", val])
+        when 'geq'
+          res.where(["#{@scope.column(col).definition}>=?", val])
+        when 'l'
+          res.where(["#{@scope.column(col).definition}<?", val])
+        when 'leq'
+          res.where(["#{@scope.column(col).definition}<=?", val])
+        when 'in'
+          res.where(["#{@scope.column(col).definition} IN (?)", val])
+        else
+          res.where(["#{@scope.column(col).definition}=?", val])
+        end
       end
       res = res.group(self.group.map { |c| @scope.column(c).definition })
       res

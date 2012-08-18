@@ -14,6 +14,8 @@ describe TestReport do
         - earnings
       conditions:
         year: 2012
+        month.geq: 8
+        month.leq: 10
       group:
         - manufacturer
         - month
@@ -25,7 +27,7 @@ describe TestReport do
       rep = TestReport.new user_id: 1
       rep.query(@q).scope.should eq(rep.scope(:transaction))
       rep.query(@q).select.should eq(['month', 'manufacturer', 'earnings'])
-      rep.query(@q).conditions.should eq('year' => 2012)
+      rep.query(@q).conditions.should eq('year' => 2012, 'month.geq' => 8, 'month.leq' => 10)
       rep.query(@q).group.should eq(['manufacturer', 'month'])
     end
 
@@ -33,6 +35,13 @@ describe TestReport do
       it 'should only contain the selected columns' do
         rep = TestReport.new user_id: 1
         rep.query(@q).result.first.attributes.keys.map(&:to_sym).should eq([:month, :manufacturer, :earnings])
+      end
+
+      it 'should contain only results with months between 1 and 3' do
+        rep = TestReport.new user_id: 1
+        rep.query(@q).result.each do |r|
+          r.month.to_i.should be_between(8, 10)
+        end
       end
     end
   end

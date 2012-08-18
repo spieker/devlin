@@ -58,12 +58,22 @@ can look like this:
       - earnings
     conditions:
       year: 2012
+      month.geq: 1
+      month.leq: 3
     group:
       - manufacturer
       - month
 
-The generated query returns a sum of earnings for each manufacturer and
-each month in the year 2012.
+The generated query returns a sum of earnings for each manufacturer 
+in the year 2012 and the months of January, February and Mach.
+
+Possible modifiers for conditions are
+
+    g   # > ...
+    geq # >= ...
+    l   # < ...
+    leq # <= ...
+    in  # IN (...)
 
 ## Todo
 

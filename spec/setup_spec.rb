@@ -23,7 +23,7 @@ describe TestReport do
         rep = TestReport.new(user_id: 1)
         scope = rep.scope(:transaction)
         scope.column(:manufacturer).select_definition.should eq('manufacturer AS manufacturer')
-        scope.column(:year).select_definition.should eq("strftime('%Y', date) AS year")
+        scope.column(:year).select_definition.should eq("CAST(strftime('%Y', date) AS INTEGER) AS year")
       end
 
       it 'should return the column value as is, if no getter is defined' do

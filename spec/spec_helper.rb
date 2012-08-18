@@ -29,8 +29,8 @@ class TestReport < Devlin::Base
     relation Transaction.where(user_id: scope.params[:user_id]).scoped
     
     column :manufacturer, "manufacturer"
-    column :year, "strftime('%Y', date)"
-    column :month, "strftime('%m', date)" do |value|
+    column :year, "CAST(strftime('%Y', date) AS INTEGER)"
+    column :month, "CAST(strftime('%m', date) AS INTEGER)" do |value|
       months = %W(~ Jan Feb Mar Apr May Jun Jul Aug Sep Okt Nov Dec)
       months[value]
     end
